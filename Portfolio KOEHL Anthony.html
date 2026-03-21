@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony Koehl — Portfolio BUT TC</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+:root{
+  --bg:#f4f0e8;
+  --bg2:#ece7db;
+  --bg3:#e0d9cc;
+  --brown:#5c4a32;
+  --brown2:#7a6245;
+  --brown-pale:rgba(92,74,50,.07);
+  --khaki:#8a8a5c;
+  --khaki2:#6b6b44;
+  --green:#4a6741;
+  --green2:#6b8f61;
+  --green-pale:rgba(74,103,65,.08);
+  --ink:#1e1a14;
+  --ink2:#3d3626;
+  --ink3:#7a6e5a;
+  --border:rgba(92,74,50,.12);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden;cursor:none;}
+
+/* ── CURSEUR ── */
+#cur{position:fixed;width:10px;height:10px;background:var(--brown);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-radius .2s,background .2s;}
+#ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--brown2);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .28s ease-out,height .28s ease-out,opacity .3s;opacity:.25;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 2.5rem;border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+nav.scrolled{background:rgba(244,240,232,.96);border-color:var(--border);backdrop-filter:blur(12px);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.06em;color:var(--ink);display:flex;align-items:center;gap:8px;}
+.nav-logo-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.6;}}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);text-decoration:none;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:var(--green);transition:width .3s cubic-bezier(.4,0,.2,1);}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a:hover::after{width:100%;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes borderGrow{from{width:0}to{width:100%}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(4deg);}}
+@keyframes floatB{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+@keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+@keyframes ticker{0%{opacity:0;transform:translateY(8px);}10%{opacity:1;transform:none;}85%{opacity:1;transform:none;}100%{opacity:0;transform:translateY(-8px);}}
+/* Barre scroll */
+#scroll-bar{position:fixed;top:0;left:0;height:2.5px;background:linear-gradient(90deg,var(--green),var(--khaki),var(--brown2));width:0%;z-index:9997;border-radius:0 2px 2px 0;}
+/* Particules hero */
+.hero-particle{position:absolute;border-radius:50%;pointer-events:none;opacity:0;}
+/* Chiffres animés */
+.chiffre-num{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5vw,64px);font-weight:700;color:#fff;line-height:1;}
+.chiffre-num span{color:#b5c9a0;font-size:.6em;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:7rem 0 5rem;position:relative;overflow:hidden;border-bottom:1px solid var(--border);}
+/* Lignes diagonales subtiles */
+#hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(92,74,50,.016) 60px,rgba(92,74,50,.016) 61px);pointer-events:none;}
+/* Cercle décoratif flottant */
+#hero::after{content:'';position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:500px;height:500px;border-radius:50%;border:1px solid rgba(92,74,50,.07);pointer-events:none;animation:fadeIn 1.5s 1s forwards;opacity:0;}
+.hero-circle{position:absolute;right:-60px;top:45%;transform:translateY(-50%);width:320px;height:320px;border-radius:50%;border:1px solid rgba(92,74,50,.05);pointer-events:none;animation:fadeIn 1.5s 1.2s forwards;opacity:0;}
+
+.hero-inner{max-width:1200px;margin:0 auto;padding:0 2.5rem;width:100%;position:relative;z-index:1;}
+.hero-tag{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--green2);display:flex;align-items:center;gap:10px;margin-bottom:2.5rem;opacity:0;animation:slideInLeft .8s .15s forwards;}
+.hero-tag::before{content:'';width:28px;height:1px;background:var(--green2);}
+
+.hero-name{opacity:0;animation:fadeUp .9s .3s forwards;margin-bottom:3rem;}
+.hero-name h1{font-family:'Cormorant Garamond',serif;font-size:clamp(64px,9vw,130px);font-weight:700;line-height:.88;letter-spacing:-.02em;color:var(--ink);}
+.hero-name h1 .line2{display:block;font-style:italic;color:var(--brown);}
+/* Soulignement animé sous le prénom */
+.hero-name h1 .line1{position:relative;display:inline-block;}
+.hero-name h1 .line1::after{content:'';position:absolute;bottom:4px;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--khaki));width:0;animation:borderGrow 1s .9s forwards;}
+
+.hero-bottom-row{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;opacity:0;animation:fadeUp .9s .55s forwards;}
+.hero-bottom-tag{font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem;}
+.hero-desc{font-size:14.5px;line-height:1.75;color:var(--ink2);max-width:420px;}
+.hero-actions{display:flex;gap:1rem;margin-top:2rem;flex-wrap:wrap;}
+
+/* Compteurs chiffrés dans le hero */
+.hero-stats{display:flex;gap:2.5rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);}
+.hero-stat{}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;color:var(--ink);line-height:1;}
+.hero-stat-num span{font-size:18px;color:var(--green);margin-left:2px;}
+.hero-stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-top:.3rem;}
+
+.btn-main{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:var(--green);color:#fff;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:background .25s,transform .2s,box-shadow .25s;}
+.btn-main:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(74,103,65,.25);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border:1.5px solid var(--border);color:var(--ink2);font-size:10.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s,transform .2s;}
+.btn-outline:hover{border-color:var(--brown);color:var(--brown);transform:translateY(-2px);}
+
+/* Fiche identité */
+.hero-id{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);}
+.id-cell{padding:.75rem 1rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);transition:background .2s;}
+.id-cell:hover{background:var(--green-pale);}
+.id-cell:nth-child(even){border-right:none;}
+.id-cell:nth-last-child(-n+2){border-bottom:none;}
+.id-key{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:.25rem;}
+.id-val{font-size:12.5px;font-weight:600;color:var(--ink);}
+.id-val.accent{color:var(--green);}
+
+/* ── SECTIONS ── */
+section{padding:6rem 0;}
+.container{max-width:1200px;margin:0 auto;padding:0 2.5rem;}
+.section-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--khaki2);display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
+.section-label::before{content:'';width:22px;height:1px;background:var(--khaki2);}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4.5vw,56px);font-weight:700;line-height:1.05;color:var(--ink);margin-bottom:3.5rem;}
+.section-title em{font-style:italic;color:var(--brown);}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s,transform .65s;}
+.reveal.v{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+/* ── PROFIL ── */
+#profil{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.profil-grid{display:grid;grid-template-columns:5fr 4fr;gap:4rem;align-items:start;}
+.profil-text{font-size:14.5px;line-height:1.9;color:var(--ink2);}
+.profil-text p+p{margin-top:1rem;}
+.profil-text strong{color:var(--ink);font-weight:600;}
+.sf-section{margin-top:2.5rem;}
+.sf-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);margin-bottom:.7rem;}
+.sf-label-sub{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--khaki);margin-top:1.2rem;margin-bottom:.5rem;}
+.sf-tags{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.4rem;}
+.sf-tag{font-size:11px;font-weight:400;padding:5px 13px;border:1px solid var(--border);color:var(--ink2);background:transparent;cursor:default;transition:all .25s cubic-bezier(.4,0,.2,1);}
+.sf-tag:hover{border-color:var(--green);color:var(--green);background:var(--green-pale);transform:translateY(-1px);}
+.sf-tag.alt{border-color:rgba(92,74,50,.2);color:var(--brown2);}
+.sf-tag.alt:hover{border-color:var(--brown);color:var(--brown);background:var(--brown-pale);transform:translateY(-1px);}
+.forces-stack{display:flex;flex-direction:column;gap:1px;}
+.force-row{display:flex;align-items:flex-start;gap:1.2rem;padding:1.4rem 0;border-bottom:1px solid var(--border);transition:background .2s,padding-left .25s;}
+.force-row:first-child{border-top:1px solid var(--border);}
+.force-row:hover{background:var(--green-pale);padding-left:.8rem;}
+.force-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--khaki);font-weight:500;flex-shrink:0;margin-top:3px;}
+.force-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.3rem;}
+.force-desc{font-size:12.5px;color:var(--ink3);line-height:1.65;}
+
+/* ── EXPÉRIENCES ── */
+#experiences{background:var(--bg);}
+.exp-block{border:1px solid var(--border);margin-bottom:1.5rem;transition:box-shadow .3s,transform .3s;}
+.exp-block:hover{box-shadow:0 4px 32px rgba(92,74,50,.08);transform:translateY(-2px);}
+.exp-block:last-child{margin-bottom:0;}
+.exp-header{display:grid;grid-template-columns:1fr auto;align-items:start;padding:2.2rem 2.5rem;border-bottom:1px solid var(--border);}
+.exp-company{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3vw,36px);font-weight:700;font-style:italic;color:var(--ink);margin-bottom:.3rem;}
+.exp-poste{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--green);}
+.exp-subtitle{font-size:12px;color:var(--ink3);margin-top:.4rem;font-family:'DM Mono',monospace;letter-spacing:.04em;}
+.exp-date{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.1em;color:var(--ink3);text-align:right;padding-top:.2rem;}
+.exp-body{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;}
+.exp-col{padding:2rem 2.2rem;border-right:1px solid var(--border);}
+.exp-col:last-child{border-right:none;}
+.exp-col-title{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki2);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.exp-list li{font-size:13px;color:var(--ink2);padding-left:1rem;position:relative;line-height:1.6;}
+.exp-list li::before{content:'·';position:absolute;left:0;color:var(--khaki);font-weight:700;}
+.exp-cards-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2rem;margin-top:1.5rem;}
+.exp-card-sm{border:1px solid var(--border);padding:1.6rem;transition:box-shadow .25s,transform .25s,border-color .25s;}
+.exp-card-sm:hover{box-shadow:0 4px 20px rgba(92,74,50,.1);transform:translateY(-3px);border-color:var(--khaki);}
+.exp-card-sm-tag{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem;}
+.exp-card-sm-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:.2rem;}
+.exp-card-sm-co{font-size:12px;color:var(--khaki2);font-weight:500;margin-bottom:.7rem;}
+.exp-card-sm-desc{font-size:12.5px;color:var(--ink2);line-height:1.65;}
+
+/* ── SAE ── */
+.sae-list-layout{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);margin-top:1.5rem;}
+.sae-item{display:grid;grid-template-columns:70px 1fr 1fr;gap:0;border-bottom:1px solid var(--border);transition:background .25s;}
+.sae-item:last-child{border-bottom:none;}
+.sae-item:hover{background:var(--brown-pale);}
+.sae-num-col{padding:2.5rem 1.5rem;border-right:1px solid var(--border);display:flex;align-items:flex-start;justify-content:center;}
+.sae-num-text{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:var(--khaki);writing-mode:vertical-rl;letter-spacing:.12em;}
+.sae-main-col{padding:2.2rem 2.5rem;border-right:1px solid var(--border);}
+.sae-right-col{padding:2.2rem 2.5rem;}
+.sae-tag-inline{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--green2);background:var(--green-pale);padding:3px 9px;display:inline-block;margin-bottom:.9rem;border:1px solid rgba(74,103,65,.15);}
+.sae-item-title{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2vw,24px);font-weight:700;color:var(--ink);margin-bottom:.35rem;line-height:1.2;}
+.sae-item-sub{font-size:12px;color:var(--ink3);margin-bottom:1rem;font-weight:400;}
+.sae-item-desc{font-size:13px;line-height:1.8;color:var(--ink2);}
+.sae-mini-title{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem;margin-top:1.2rem;}
+.sae-mini-title:first-child{margin-top:0;}
+.sae-mini-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;}
+.sae-mini-list li{font-size:12.5px;color:var(--ink2);padding-left:1rem;position:relative;line-height:1.6;}
+.sae-mini-list li::before{content:'·';position:absolute;left:0;color:var(--khaki);font-weight:700;}
+.sae-analysis-box{margin-top:1.2rem;padding:.9rem 1.1rem;background:var(--green-pale);border-left:2px solid var(--green2);font-size:12px;line-height:1.75;color:var(--ink2);font-style:italic;}
+.sae-reflexive-badge{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);margin-bottom:.35rem;font-style:normal;}
+.sae-transfer{margin-top:.8rem;padding:.7rem 1rem;background:var(--brown-pale);border-left:2px solid var(--brown2);font-size:12px;line-height:1.7;color:var(--ink3);}
+.sae-transfer strong{color:var(--brown2);font-weight:600;}
+
+/* ── COMPÉTENCES ── */
+#competences{background:var(--bg2);border-top:1px solid var(--border);}
+.comp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+.comp-block{border:1px solid var(--border);padding:2rem;background:var(--bg);transition:box-shadow .3s,transform .3s,border-color .3s;}
+.comp-block:hover{box-shadow:0 8px 36px rgba(92,74,50,.1);transform:translateY(-3px);border-color:var(--brown2);}
+.comp-block-num{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:700;color:rgba(92,74,50,.07);line-height:1;margin-bottom:1rem;}
+.comp-block-title{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border);}
+.comp-items{list-style:none;display:flex;flex-direction:column;gap:.6rem;}
+.comp-items li{font-size:13px;color:var(--ink2);display:flex;align-items:flex-start;gap:.7rem;line-height:1.5;}
+.comp-items li::before{content:'→';color:var(--khaki);font-size:11px;flex-shrink:0;margin-top:2px;}
+.lang-section{margin-top:1.8rem;padding-top:1.4rem;border-top:1px solid var(--border);}
+.lang-item{margin-bottom:1rem;}
+.lang-row{display:flex;justify-content:space-between;font-size:11px;font-weight:600;margin-bottom:.35rem;}
+.lang-row span:last-child{color:var(--green2);}
+.lang-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.lang-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--green2));border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform 1.2s cubic-bezier(.4,0,.2,1);}
+.lang-fill.animated{transform:scaleX(1);}
+
+/* ── BANDE CHIFFRES CLÉS ── */
+#chiffres{background:var(--ink);padding:4rem 0;}
+.chiffres-inner{max-width:1200px;margin:0 auto;padding:0 2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.chiffre-item{padding:2rem 2.5rem;border-right:1px solid rgba(255,255,255,.07);text-align:center;}
+.chiffre-item:last-child{border-right:none;}
+.chiffre-num{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5vw,64px);font-weight:700;color:#fff;line-height:1;}
+.chiffre-num span{color:#b5c9a0;font-size:.6em;}
+.chiffre-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-top:.6rem;}
+
+/* ── AUTOÉVALUATION ── */
+#autoevaluation{background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.auto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);}
+.auto-block{padding:2.2rem;border-right:1px solid var(--border);}
+.auto-block:last-child{border-right:none;}
+.auto-block-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:.6rem;}
+.auto-block-text{font-size:13px;line-height:1.75;color:var(--ink2);}
+.auto-block-text em{font-style:italic;color:var(--green2);}
+.progression-row{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.prog-card{border:1px solid var(--border);padding:1.8rem;background:var(--bg);transition:box-shadow .25s,transform .25s;}
+.prog-card:hover{box-shadow:0 4px 20px rgba(92,74,50,.08);transform:translateY(-2px);}
+.prog-card-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki2);margin-bottom:.8rem;}
+.prog-card-title{font-size:15px;font-weight:600;color:var(--ink);margin-bottom:.6rem;}
+.prog-card-text{font-size:13px;line-height:1.7;color:var(--ink2);}
+
+/* ── OBJECTIFS ── */
+#objectifs{background:var(--ink);}
+#objectifs .section-label{color:#b5c9a0;}
+#objectifs .section-label::before{background:#b5c9a0;}
+#objectifs .section-title{color:#f4f0e8;}
+#objectifs .section-title em{color:#b5c9a0;}
+.obj-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0;border:1px solid rgba(255,255,255,.07);}
+.obj-block{padding:2.5rem;border-right:1px solid rgba(255,255,255,.07);transition:background .25s;}
+.obj-block:hover{background:rgba(255,255,255,.03);}
+.obj-block:last-child{border-right:none;}
+.obj-block.featured{background:rgba(74,103,65,.15);border-color:rgba(74,103,65,.3);}
+.obj-block.featured:hover{background:rgba(74,103,65,.2);}
+.obj-block-label{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1rem;}
+.obj-block-label.accent{color:#b5c9a0;}
+.obj-block-text{font-size:15px;line-height:1.75;color:rgba(255,255,255,.85);}
+.obj-block-text em{font-family:'Cormorant Garamond',serif;font-style:italic;color:#b5c9a0;}
+
+/* ── CONTACT ── */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);}
+.contact-left{padding:4rem 3rem;background:var(--ink);}
+.contact-right{padding:4rem 3rem;}
+.contact-big{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,82px);font-weight:700;line-height:.9;color:#f4f0e8;margin-bottom:2rem;}
+.contact-big span{font-style:italic;color:#b5c9a0;}
+.contact-note{font-size:14px;line-height:1.8;color:rgba(255,255,255,.5);}
+.c-list{display:flex;flex-direction:column;gap:0;}
+.c-row{display:flex;justify-content:space-between;align-items:center;padding:1.15rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--ink);transition:padding-left .2s,color .2s;}
+.c-row:hover{padding-left:.6rem;}
+.c-row:hover .c-arr{color:var(--green);}
+.c-label{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);width:90px;}
+.c-val{font-size:13px;color:var(--ink2);flex:1;}
+.c-arr{font-size:16px;color:var(--border);transition:color .2s;}
+.contact-right-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:2rem;}
+
+footer{padding:1.5rem 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--bg2);}
+footer p{font-family:'DM Mono',monospace;font-size:9.5px;color:var(--ink3);letter-spacing:.06em;}
+footer span{color:var(--green2);}
+
+@media(max-width:960px){
+  .hero-bottom-row,.profil-grid,.comp-grid,.contact-layout,.auto-grid,.progression-row,.exp-cards-row,.chiffres-inner{grid-template-columns:1fr;}
+  .exp-body{grid-template-columns:1fr;}
+  .exp-col{border-right:none;border-bottom:1px solid var(--border);}
+  .exp-col:last-child{border-bottom:none;}
+  .sae-item{grid-template-columns:1fr;}
+  .sae-num-col{display:none;}
+  .sae-main-col{border-right:none;border-bottom:1px solid var(--border);}
+  .obj-grid{grid-template-columns:1fr;}
+  .obj-block{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .auto-block{border-right:none;border-bottom:1px solid var(--border);}
+  .auto-block:last-child{border-bottom:none;}
+  .chiffre-item{border-right:none;border-bottom:1px solid rgba(255,255,255,.07);}
+  .hero-stats{flex-wrap:wrap;gap:1.5rem;}
+  nav{padding:1rem 1.5rem;}
+  .nav-links{gap:1.2rem;}
+  .container,.hero-inner{padding:0 1.5rem;}
+  footer{flex-direction:column;gap:.4rem;text-align:center;}
+}
+
+/* ── CV ── */
+#cv{background:var(--bg2);border-top:1px solid var(--border);}
+.cv-layout{display:grid;grid-template-columns:280px 1fr;gap:0;border:1px solid var(--border);}
+.cv-left{background:var(--ink);padding:3rem 2.2rem;display:flex;flex-direction:column;gap:2.5rem;}
+.cv-right{padding:3rem 2.5rem;display:flex;flex-direction:column;gap:2.5rem;}
+.cv-name-big{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,48px);font-weight:700;line-height:.95;color:#f4f0e8;letter-spacing:-.01em;margin-bottom:1.2rem;}
+.cv-profil-text{font-size:12.5px;line-height:1.8;color:rgba(255,255,255,.65);padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.08);}
+.cv-contact-list{display:flex;flex-direction:column;gap:.6rem;margin-top:.2rem;}
+.cv-contact-list a,.cv-contact-list span{font-size:11.5px;color:rgba(255,255,255,.55);text-decoration:none;font-family:'DM Mono',monospace;letter-spacing:.04em;display:flex;align-items:center;gap:.5rem;}
+.cv-contact-list a:hover{color:#b5c9a0;}
+.cv-block-label{font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--green2);margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.08);}
+.cv-block-label.dark{color:var(--khaki2);border-bottom-color:var(--border);}
+.cv-formation-item{margin-bottom:1.4rem;}
+.cv-formation-item:last-child{margin-bottom:0;}
+.cv-formation-title{font-size:13px;font-weight:600;color:#f4f0e8;margin-bottom:.15rem;}
+.cv-formation-sub{font-size:11px;color:rgba(255,255,255,.45);font-family:'DM Mono',monospace;letter-spacing:.04em;line-height:1.6;}
+.cv-projet-item{margin-bottom:1.2rem;}
+.cv-projet-item:last-child{margin-bottom:0;}
+.cv-projet-title{font-size:12.5px;font-weight:600;color:#f4f0e8;margin-bottom:.15rem;}
+.cv-projet-sub{font-size:11px;color:rgba(255,255,255,.4);font-family:'DM Mono',monospace;letter-spacing:.03em;line-height:1.6;}
+/* Right side */
+.cv-exp-item{padding-bottom:2rem;border-bottom:1px solid var(--border);margin-bottom:2rem;}
+.cv-exp-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.cv-exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem;}
+.cv-exp-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);}
+.cv-exp-date{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.12em;color:var(--ink3);text-align:right;padding-top:.3rem;}
+.cv-exp-co{font-size:12px;color:var(--green2);font-weight:600;margin-bottom:.8rem;font-family:'DM Mono',monospace;letter-spacing:.04em;}
+.cv-exp-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;}
+.cv-exp-list li{font-size:13px;color:var(--ink2);padding-left:1rem;position:relative;line-height:1.65;}
+.cv-exp-list li::before{content:'·';position:absolute;left:0;color:var(--khaki);font-weight:700;}
+.cv-download{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border:1.5px solid var(--green);color:var(--green);font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .25s;margin-top:2rem;align-self:flex-start;}
+.cv-download:hover{background:var(--green);color:#fff;transform:translateY(-2px);}
+@media(max-width:960px){.cv-layout{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div id="scroll-bar"></div>
+<div id="cur"></div>
+<div id="ring"></div>
+
+<nav id="nav">
+  <div class="nav-logo"><span class="nav-logo-dot"></span> Anthony Koehl</div>
+  <ul class="nav-links">
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#experiences">Expériences</a></li>
+    <li><a href="#competences">Compétences</a></li>
+    <li><a href="#autoevaluation">Bilan</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#cv">CV</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-circle"></div>
+  <div class="hero-particle" id="p1" style="width:6px;height:6px;background:var(--green);top:20%;left:15%;animation:float 7s 0s ease-in-out infinite;opacity:.35;"></div>
+  <div class="hero-particle" id="p2" style="width:4px;height:4px;background:var(--khaki);top:35%;left:8%;animation:floatB 9s .5s ease-in-out infinite;opacity:.25;"></div>
+  <div class="hero-particle" id="p3" style="width:8px;height:8px;background:var(--brown2);top:60%;left:20%;animation:float 6s 1s ease-in-out infinite;opacity:.2;border-radius:2px;transform:rotate(45deg);"></div>
+  <div class="hero-particle" id="p4" style="width:5px;height:5px;background:var(--green2);top:25%;right:25%;animation:floatB 8s .8s ease-in-out infinite;opacity:.3;"></div>
+  <div class="hero-particle" id="p5" style="width:3px;height:3px;background:var(--khaki2);top:70%;right:30%;animation:float 10s 2s ease-in-out infinite;opacity:.25;"></div>
+  <div class="hero-inner">
+    <p class="hero-tag">Apprenti Commercial · BUT TC — 2ème année</p>
+    <div class="hero-name">
+      <h1><span class="line1">Anthony</span><span class="line2">Koehl</span></h1>
+    </div>
+    <div class="hero-bottom-row">
+      <div>
+        <p class="hero-bottom-tag">Développement commercial &amp; Stratégie</p>
+        <p class="hero-desc">Étudiant en <strong>2ème année de BUT Techniques de Commercialisation</strong> à l'IUT de Colmar, en alternance chez <strong>Altodis</strong>. Au quotidien, je prends en charge des missions concrètes : prospection téléphonique, suivi client, tableaux de bord et devis — autant d'activités qui me permettent de progresser chaque semaine sur le terrain.</p>
+        <div class="hero-actions">
+          <a href="#experiences" class="btn-main">Mes expériences ↓</a>
+          <a href="#contact" class="btn-outline">Me contacter</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-num"><span data-target="100" data-suffix="">100</span><span>/mois</span></div><div class="hero-stat-label">Appels de prospection</div></div>
+          <div class="hero-stat"><div class="hero-stat-num"><span data-target="5" data-suffix="">5</span><span>+</span></div><div class="hero-stat-label">Projets détectés/mois</div></div>
+          <div class="hero-stat"><div class="hero-stat-num"><span data-target="20" data-suffix="">20</span><span>+</span></div><div class="hero-stat-label">Devis réalisés/mois</div></div>
+        </div>
+      </div>
+      <div class="hero-id">
+        <div class="id-cell"><p class="id-key">Formation</p><p class="id-val accent">BUT TC — IUT Colmar</p></div>
+        <div class="id-cell"><p class="id-key">Année</p><p class="id-val">2ème · 2024–2027</p></div>
+        <div class="id-cell"><p class="id-key">Alternance</p><p class="id-val accent">Altodis</p></div>
+        <div class="id-cell"><p class="id-key">Poste</p><p class="id-val">Apprenti Commercial</p></div>
+        <div class="id-cell"><p class="id-key">CRM</p><p class="id-val">Saphir (ex-Mistral)</p></div>
+        <div class="id-cell"><p class="id-key">Localisation</p><p class="id-val">Bollwiller · Alsace</p></div>
+        <div class="id-cell"><p class="id-key">Anglais</p><p class="id-val">B2 — Professionnel</p></div>
+        <div class="id-cell"><p class="id-key">Allemand</p><p class="id-val">B1 — Frontalier</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHIFFRES CLÉS ═══ -->
+<div id="chiffres">
+  <div class="chiffres-inner">
+    <div class="chiffre-item reveal">
+      <div class="chiffre-num"><span data-target="100" data-suffix="/mois">100/mois</span></div>
+      <div class="chiffre-label">Appels B2B effectués</div>
+    </div>
+    <div class="chiffre-item reveal d1">
+      <div class="chiffre-num"><span data-target="20" data-suffix="+">20+</span></div>
+      <div class="chiffre-label">Devis réalisés par mois</div>
+    </div>
+    <div class="chiffre-item reveal d2">
+      <div class="chiffre-num"><span data-target="3" data-suffix="">3</span></div>
+      <div class="chiffre-label">SAE professionnelles</div>
+    </div>
+    <div class="chiffre-item reveal d3">
+      <div class="chiffre-num"><span data-target="1" data-suffix="an">1an</span></div>
+      <div class="chiffre-label">d'alternance en cours</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PROFIL ═══ -->
+<section id="profil">
+  <div class="container">
+    <p class="section-label reveal">Qui suis-je ?</p>
+    <h2 class="section-title reveal d1">Mon <em>profil</em></h2>
+    <div class="profil-grid">
+      <div>
+        <div class="profil-text reveal d1">
+          <p>Je suis en <strong>2ème année de BUT TC</strong> à l'IUT de Colmar, en alternance chez Altodis. Ce rythme entre cours et entreprise me convient vraiment : ce que j'apprends en classe, je peux le tester le lendemain en entreprise, et inversement.</p>
+          <p>J'aime travailler en équipe, je suis curieux, et j'essaie toujours d'aller au fond des choses avant de tirer des conclusions. Que ce soit pour analyser un marché, préparer un appel client ou construire un tableau de bord, je m'implique jusqu'au bout. Mon <strong>Allemand B1</strong> est aussi un vrai atout dans notre région, proche de la frontière allemande et suisse.</p>
+        </div>
+        <div class="sf-section reveal d2">
+          <p class="sf-label">Ce que je sais faire</p>
+          <p class="sf-label-sub">En entreprise</p>
+          <div class="sf-tags">
+            <span class="sf-tag">Prospection téléphonique</span>
+            <span class="sf-tag">Création de tableaux de bord</span>
+            <span class="sf-tag">Analyse et pilotage via tableaux de bord</span>
+            <span class="sf-tag">CRM Saphir</span>
+            <span class="sf-tag">Développement commercial</span>
+            <span class="sf-tag">Réalisation de devis</span>
+          </div>
+          <p class="sf-label-sub">En cours</p>
+          <div class="sf-tags">
+            <span class="sf-tag alt">SWOT · PESTEL</span>
+            <span class="sf-tag alt">5 Forces de Porter</span>
+            <span class="sf-tag alt">Matrice BCG</span>
+            <span class="sf-tag alt">Techniques de négociation</span>
+            <span class="sf-tag alt">Anglais B2</span>
+            <span class="sf-tag alt">Allemand B1</span>
+          </div>
+        </div>
+      </div>
+      <div class="forces-stack reveal d2">
+        <div class="force-row">
+          <span class="force-num">01</span>
+          <div>
+            <p class="force-title">Esprit d'équipe</p>
+            <p class="force-desc">Je fonctionne bien en groupe. Que ce soit en cours sur les SAE ou en entreprise, j'aime travailler avec les autres et je trouve qu'on avance mieux à plusieurs.</p>
+          </div>
+        </div>
+        <div class="force-row">
+          <span class="force-num">02</span>
+          <div>
+            <p class="force-title">Orienté résultats</p>
+            <p class="force-desc">Quand je me fixe un objectif, je m'y tiens. En prospection comme en cours, j'essaie d'aller au bout de ce que j'entreprends sans m'arrêter à mi-chemin.</p>
+          </div>
+        </div>
+        <div class="force-row">
+          <span class="force-num">03</span>
+          <div>
+            <p class="force-title">Sens de l'analyse</p>
+            <p class="force-desc">J'aime comprendre pourquoi les choses fonctionnent ou non. Que ce soit un marché, un tableau de bord ou une situation client, je cherche toujours à aller plus loin que la surface.</p>
+          </div>
+        </div>
+        <div class="force-row">
+          <span class="force-num">04</span>
+          <div>
+            <p class="force-title">Adaptabilité</p>
+            <p class="force-desc">Je m'adapte facilement, que ce soit à un nouvel outil, un nouvel interlocuteur ou une situation imprévue. La ponctualité et la fiabilité font partie de mon fonctionnement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXPÉRIENCES ═══ -->
+<section id="experiences">
+  <div class="container">
+    <p class="section-label reveal">Parcours</p>
+    <h2 class="section-title reveal d1">Mes <em>expériences</em></h2>
+
+    <!-- ALTODIS -->
+    <div class="exp-block reveal d1">
+      <div class="exp-header">
+        <div>
+          <p class="exp-poste">Apprenti Commercial</p>
+          <h3 class="exp-company">ALTODIS</h3>
+          <p class="exp-subtitle">Distributeur Officiel — matériel de manutention TOYOTA &amp; matériel de BTP KUBOTA</p>
+        </div>
+        <p class="exp-date">2025 — aujourd'hui</p>
+      </div>
+      <div class="exp-body">
+        <div class="exp-col">
+          <p class="exp-col-title">Ce que je fais</p>
+          <ul class="exp-list">
+            <li>Prospection téléphonique active : ~100 appels/mois sur un secteur défini, qualification des prospects et prise de rendez-vous pour les commerciaux</li>
+            <li>Suivi d'un portefeuille client en autonomie : relances, réponses aux demandes, entretien de la relation</li>
+            <li>Réalisation de devis et accompagnement client jusqu'à la conclusion</li>
+            <li>Pilotage de la satisfaction client : conception du questionnaire, passation des appels, collecte et synthèse des retours</li>
+            <li>Remontée terrain régulière auprès du management pour ajuster la stratégie commerciale</li>
+          </ul>
+        </div>
+        <div class="exp-col">
+          <p class="exp-col-title">Ce que j'apprends</p>
+          <ul class="exp-list">
+            <li>Maîtriser un cycle de vente B2B complet sur des produits techniques à forte valeur ajoutée</li>
+            <li>Adapter mon discours selon le profil de l'interlocuteur (dirigeant, acheteur, chef de chantier)</li>
+            <li>Mesurer et améliorer la satisfaction client sur un marché professionnel exigeant</li>
+            <li>Produire des analyses commerciales utiles à la prise de décision managériale</li>
+          </ul>
+        </div>
+        <div class="exp-col">
+          <p class="exp-col-title">Ce que je sais faire</p>
+          <ul class="exp-list">
+            <li>Construire un tableau de bord multi-niveaux (groupe / division / individuel) et en assurer le suivi régulier</li>
+            <li>Analyser la performance commerciale par indicateurs et formuler des synthèses actionnables</li>
+            <li>Gérer un portefeuille client de façon autonome et proactive</li>
+            <li>Mener des enquêtes de satisfaction de A à Z : conception → appels → analyse → restitution</li>
+            <li>Utiliser le CRM Saphir pour structurer et prioriser les actions commerciales</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RÉALISATION CLÉ -->
+      <div style="padding:2rem 2.5rem;border-top:1px solid var(--border);background:var(--bg2);">
+        <p style="font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki2);margin-bottom:1.2rem;">Réalisation clé</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;">
+          <div>
+            <p style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:.7rem;">Tableau de bord Excel de performance commerciale</p>
+            <p style="font-size:13px;line-height:1.75;color:var(--ink2);">Conception et déploiement d'un tableau de bord utilisé à trois niveaux d'analyse : à l'échelle du groupe Altodis, par division (Manutention Toyota / BTP Kubota), et par commercial individuellement. Je collecte les données, construis les indicateurs et produis les analyses de façon autonome et régulière.</p>
+          </div>
+          <div>
+            <p style="font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki2);margin-bottom:.8rem;">Résultats concrets</p>
+            <div style="display:flex;flex-direction:column;gap:.7rem;">
+              <div style="padding:.8rem 1rem;background:var(--green-pale);border-left:2px solid var(--green2);">
+                <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--green);line-height:1;">9<span style="font-size:14px;color:var(--green2)">/10</span></p>
+                <p style="font-size:11.5px;color:var(--ink2);margin-top:.2rem;">Score NPS global sur 50 clients — satisfaction client excellente sur l'ensemble du périmètre</p>
+              </div>
+              <div style="padding:.8rem 1rem;background:var(--brown-pale);border-left:2px solid var(--brown2);">
+                <p style="font-size:12px;color:var(--ink2);line-height:1.65;">Point d'amélioration identifié : écart entre délai de livraison annoncé et délai réel — remonté au management pour action corrective</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CE QUI ME DIFFÉRENCIE -->
+      <div style="padding:2rem 2.5rem;border-top:1px solid var(--border);">
+        <p style="font-family:'DM Mono',monospace;font-size:8.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--khaki2);margin-bottom:1rem;">Ce qui me différencie</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;">
+          <div style="padding:1.2rem;border:1px solid var(--border);">
+            <p style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.4rem;">Concepteur, pas exécutant</p>
+            <p style="font-size:12.5px;color:var(--ink3);line-height:1.65;">Je ne me contente pas d'appliquer des consignes — je conçois des outils Excel utilisés au quotidien par toute l'équipe commerciale.</p>
+          </div>
+          <div style="padding:1.2rem;border:1px solid var(--border);">
+            <p style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.4rem;">Double univers B2B technique</p>
+            <p style="font-size:12.5px;color:var(--ink3);line-height:1.65;">Manutention industrielle + BTP : deux marchés avec leurs propres codes clients, que j'ai appris à distinguer et auxquels je m'adapte à chaque situation.</p>
+          </div>
+          <div style="padding:1.2rem;border:1px solid var(--border);">
+            <p style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:.4rem;">Alternance vraiment intégrée</p>
+            <p style="font-size:12.5px;color:var(--ink3);line-height:1.65;">Chaque concept appris en BUT TC est mis en pratique immédiatement en entreprise, et inversement. Le lien théorie-terrain est permanent.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BUT TC -->
+    <div class="exp-block reveal d2">
+      <div class="exp-header">
+        <div>
+          <p class="exp-poste">Formation par alternance</p>
+          <h3 class="exp-company">BUT Techniques de Commercialisation — IUT Colmar</h3>
+        </div>
+        <p class="exp-date">2024 — aujourd'hui</p>
+      </div>
+      <div class="exp-body">
+        <div class="exp-col">
+          <p class="exp-col-title">Ce que j'apprends en cours</p>
+          <ul class="exp-list">
+            <li>Analyse de marché : SWOT, PESTEL, 5 Forces de Porter, Matrice BCG</li>
+            <li>Techniques de négociation commerciale</li>
+            <li>Marketing, stratégie et communication</li>
+            <li>Gestion de projets et livrables professionnels</li>
+          </ul>
+        </div>
+        <div class="exp-col">
+          <p class="exp-col-title">Ce que je sais faire</p>
+          <ul class="exp-list">
+            <li>Mener une étude de marché complète</li>
+            <li>Analyser un environnement concurrentiel</li>
+            <li>Préparer et mener une phase de négociation</li>
+            <li>Communiquer en anglais dans un contexte professionnel (B2)</li>
+            <li>Rédiger des rapports et comptes rendus structurés</li>
+          </ul>
+        </div>
+        <div class="exp-col">
+          <p class="exp-col-title">Les SAE — projets concrets</p>
+          <p style="font-size:13px;line-height:1.75;color:var(--ink2);">Chaque semestre, des SAE me mettent en situation réelle : observer des vendeurs professionnels, mener une étude de marché, concevoir un stand pour un salon international. Ce sont des projets complets qui testent mes connaissances et ma capacité à les appliquer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAE détaillées -->
+    <div class="reveal d3">
+      <div class="sae-list-layout">
+
+        <div class="sae-item">
+          <div class="sae-num-col"><span class="sae-num-text">SAE 01</span></div>
+          <div class="sae-main-col">
+            <span class="sae-tag-inline">Création d'entreprise · S1</span>
+            <h3 class="sae-item-title">SeaSense — Projet de création d'entreprise</h3>
+            <p class="sae-item-sub">Conception complète d'un projet entrepreneurial innovant et éco-responsable</p>
+            <p class="sae-item-desc">En groupe, on a imaginé et structuré de A à Z une entreprise fictive : SeaSense, une marque de figurines personnalisables produites en impression 3D à partir de plastiques recyclés issus des océans. Le projet intègre une dimension commerciale (e-commerce, politique de prix, communication), stratégique (SWOT, PESTEL, étude de marché, analyse concurrentielle) et financière (compte de résultat prévisionnel, seuil de rentabilité, plan de financement). L'ensemble a été restitué lors d'un pitch de 2 minutes devant des professeurs et des professionnels.</p>
+            <div class="sae-analysis-box">
+              <span class="sae-reflexive-badge">Analyse réflexive</span><br>
+              Ce projet m'a confronté à la réalité de créer quelque chose de cohérent de bout en bout : le concept doit tenir face à un marché, face aux chiffres, et face à un jury. Ce que j'ai vraiment appris, c'est qu'une bonne idée ne suffit pas — il faut la valider par des données, la structurer financièrement et savoir la défendre à l'oral. Ma principale limite : j'ai eu du mal à synthétiser lors du pitch les points les plus différenciants en seulement 2 minutes. C'est un exercice que je veux continuer à travailler.
+            </div>
+            <div class="sae-transfer"><strong>En lien avec mon alternance :</strong> la logique de positionnement et de différenciation que j'ai développée sur SeaSense, je la retrouve dans mon travail chez Altodis — comprendre ce qui fait la valeur perçue d'un produit pour mieux argumenter face à un client.</div>
+            <div style="margin-top:1rem;padding:.7rem 1rem;background:rgba(74,103,65,.1);border-left:2px solid var(--green2);">
+              <p style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--green2);margin-bottom:.3rem;">Résultat obtenu</p>
+              <p style="font-size:12.5px;color:var(--ink2);line-height:1.65;">Félicitations du jury — projet qualifié d'<strong>entreprise prometteuse</strong> pour son positionnement écologique et la réelle utilité d'achat couplée à la sensibilisation aux océans. Pitch réalisé devant professeurs et professionnels.</p>
+            </div>
+          </div>
+          <div class="sae-right-col">
+            <p class="sae-mini-title">Ce qu'on a fait</p>
+            <ul class="sae-mini-list">
+              <li>Définition du concept produit et du modèle économique (SAS, e-commerce B2C)</li>
+              <li>Étude de marché complète : marché du jouet, segment figurines, analyse concurrentielle</li>
+              <li>Analyse SWOT et PESTEL, segmentation, ciblage et positionnement</li>
+              <li>Politique commerciale complète : produit, prix, distribution, communication</li>
+              <li>Plan financier : compte de résultat prévisionnel, seuil de rentabilité, BFR</li>
+              <li>Stratégie RSE et engagement ODD 14 (protection des océans)</li>
+              <li>Pitch de 2 minutes devant un jury de professeurs et professionnels</li>
+            </ul>
+            <p class="sae-mini-title">Ce que j'ai développé</p>
+            <ul class="sae-mini-list">
+              <li>Construire et défendre un projet entrepreneurial complet face à un jury</li>
+              <li>Articuler une stratégie marketing cohérente autour d'un positionnement différenciant</li>
+              <li>Lire et exploiter des données financières prévisionnelles</li>
+              <li>Travailler en mode projet sur un livrable long et transversal</li>
+              <li>Prendre la parole à l'oral devant des professionnels</li>
+            </ul>
+            <p class="sae-mini-title">Ce que je ferais mieux</p>
+            <ul class="sae-mini-list">
+              <li>Mieux prioriser les arguments clés pour le pitch — 2 minutes, ça se prépare différemment</li>
+              <li>Aller plus loin sur la validation terrain (interviews clients, tests produit)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sae-item">
+          <div class="sae-num-col"><span class="sae-num-text">SAE 02</span></div>
+          <div class="sae-main-col">
+            <span class="sae-tag-inline">Marketing · S1</span>
+            <h3 class="sae-item-title">Étude de marché — Pâte à tartiner chocolatée</h3>
+            <p class="sae-item-sub">Analyse complète d'un marché du quotidien</p>
+            <p class="sae-item-desc">On a mené une étude de marché sur le secteur de la pâte à tartiner : analyse des concurrents (Nutella, Menguy's, Andros Be Nuts), sondage consommateurs, SWOT et PESTEL, puis recommandations de positionnement. Travail de groupe avec restitution finale.</p>
+            <div class="sae-analysis-box">
+              <span class="sae-reflexive-badge">Analyse réflexive</span><br>
+              J'ai vraiment aimé cette SAE parce qu'elle touchait à un produit du quotidien. Ce que j'ai appris : la qualité d'une analyse dépend directement de la qualité des données collectées. Ma limite à l'époque : je n'étais pas encore à l'aise pour formuler des recommandations claires et argumentées.
+            </div>
+            <div class="sae-transfer"><strong>En lien avec mon alternance :</strong> exploiter des données pour prendre des décisions, c'est exactement ce que je fais avec mes tableaux de bord chez Altodis.</div>
+          </div>
+          <div class="sae-right-col">
+            <p class="sae-mini-title">Ce qu'on a fait</p>
+            <ul class="sae-mini-list">
+              <li>Analyse SWOT + PESTEL du marché</li>
+              <li>Comparaison des concurrents et parts de marché</li>
+              <li>Création et exploitation d'un sondage consommateur</li>
+              <li>Recommandations de positionnement produit</li>
+            </ul>
+            <p class="sae-mini-title">Ce que j'ai développé</p>
+            <ul class="sae-mini-list">
+              <li>Mener une étude de marché de A à Z</li>
+              <li>Comparer des acteurs et lire les parts de marché</li>
+              <li>Tirer des conclusions de données chiffrées</li>
+              <li>Rédiger un rapport structuré et lisible</li>
+            </ul>
+            <p class="sae-mini-title">Ce que je ferais mieux</p>
+            <ul class="sae-mini-list">
+              <li>Anticiper la collecte de données plus tôt</li>
+              <li>Formuler des recommandations plus précises dès le départ</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sae-item">
+          <div class="sae-num-col"><span class="sae-num-text">SAE 03</span></div>
+          <div class="sae-main-col">
+            <span class="sae-tag-inline">Commerce International · Anglais</span>
+            <h3 class="sae-item-title">Projet fictif de participation au salon Essen Motor Show — MILLTEK</h3>
+            <p class="sae-item-sub">Simulation professionnelle intégralement conduite en anglais</p>
+            <p class="sae-item-desc">Projet mené <strong>entièrement en anglais</strong> : de la phase de recherche stratégique jusqu'à la présentation orale finale. On a conçu la participation fictive de l'entreprise MILLTEK au salon Essen Motor Show — stratégie commerciale, logistique du stand, budget, plan de communication 360° et pilotage des actions via des tableaux de bord. Chaque livrable, chaque échange d'équipe et chaque prise de parole s'est fait en anglais, dans des conditions proches d'un vrai contexte professionnel international.</p>
+            <div class="sae-analysis-box">
+              <span class="sae-reflexive-badge">Analyse réflexive</span><br>
+              Travailler intégralement en anglais sur un projet aussi complet, c'est une contrainte qui s'ajoute à toutes les autres. J'ai appris à gérer simultanément le fond du projet et la langue — ce n'est pas la même chose que de traduire après coup. Construire les tableaux de bord m'a vraiment aidé à comprendre comment on mesure concrètement l'avancement d'un projet. Axe de progression identifié : la prise de parole orale en anglais sous pression, que je continue à travailler.
+            </div>
+            <div class="sae-transfer"><strong>En lien avec mon alternance :</strong> la logique de pilotage par indicateurs que j'ai expérimentée ici, je l'applique directement dans la construction de mes tableaux de bord commerciaux chez Altodis.</div>
+          </div>
+          <div class="sae-right-col">
+            <p class="sae-mini-title">Ce qu'on a fait</p>
+            <ul class="sae-mini-list">
+              <li>Cadrage stratégique et sélection du concept pour MILLTEK</li>
+              <li>Étude de marché et diagnostic concurrentiel</li>
+              <li>Conception du stand et plan de communication 360°</li>
+              <li>Gestion du budget et pilotage du projet</li>
+              <li>Présentation orale finale en anglais</li>
+            </ul>
+            <p class="sae-mini-title">Ce que j'ai développé</p>
+            <ul class="sae-mini-list">
+              <li>Concevoir des tableaux de bord pour suivre précisément les actions menées, mesurer l'avancement par rapport aux objectifs et piloter les décisions en fonction des résultats</li>
+              <li>Gérer un projet commercial complet de A à Z</li>
+              <li>Communiquer en anglais dans un contexte professionnel (B2)</li>
+              <li>Travailler sous contraintes budgétaires et temporelles</li>
+              <li>Coordonner une équipe sur plusieurs livrables</li>
+            </ul>
+            <p class="sae-mini-title">Ce que je ferais mieux</p>
+            <ul class="sae-mini-list">
+              <li>Mieux préparer la prise de parole en anglais sous pression</li>
+              <li>Anticiper les risques projet dès la phase de cadrage</li>
+            </ul>
+            <p class="sae-mini-title">Preuves possibles</p>
+            <ul class="sae-mini-list">
+              <li>Capture de ton tableau de bord Excel de suivi du projet</li>
+              <li>Une slide de la présentation finale</li>
+              <li>Le plan de stand ou le plan de communication 360°</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Autres expériences -->
+    <div class="exp-cards-row reveal d4">
+      <div class="exp-card-sm">
+        <p class="exp-card-sm-tag">Emploi étudiant · Avr. 2024</p>
+        <h4 class="exp-card-sm-title">Serveur</h4>
+        <p class="exp-card-sm-co">Restaurant Les Tommerie — Château d'Isenbourg</p>
+        <p class="exp-card-sm-desc">Environnement haut de gamme avec une exigence élevée côté service. J'ai beaucoup appris sur le contact client, la réactivité et la gestion des imprévus. Première vraie expérience de terrain.</p>
+      </div>
+      <div class="exp-card-sm">
+        <p class="exp-card-sm-tag">Expérience pro · Logistique</p>
+        <h4 class="exp-card-sm-title">Agent logistique</h4>
+        <p class="exp-card-sm-co">Transport KAUFFMANN — Soultz</p>
+        <p class="exp-card-sm-desc">Expérience dans le transport et la logistique : rigueur, respect des délais, organisation. Ça m'a donné une vision concrète des enjeux supply chain, en lien direct avec la commercialisation.</p>
+      </div>
+      <div class="exp-card-sm">
+        <p class="exp-card-sm-tag">Bénévolat</p>
+        <h4 class="exp-card-sm-title">Bénévole — Loto caritatif</h4>
+        <p class="exp-card-sm-co">Événements associatifs locaux</p>
+        <p class="exp-card-sm-desc">Organisation d'événements, gestion du public, travail en équipe bénévole. Simple mais concret : ça demande de la fiabilité, de l'investissement et un bon sens des responsabilités.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ COMPÉTENCES ═══ -->
+<section id="competences">
+  <div class="container">
+    <p class="section-label reveal">Savoir-faire</p>
+    <h2 class="section-title reveal d1">Mes <em>compétences</em></h2>
+    <div class="comp-grid">
+      <div class="comp-block reveal">
+        <div class="comp-block-num">01</div>
+        <p class="comp-block-title">Commerciales &amp; Marketing</p>
+        <ul class="comp-items">
+          <li>Méthode SONCAS appliquée en entretiens B2B en alternance</li>
+          <li>Analyse de marché : SWOT, PESTEL, 5 Forces de Porter, Matrice BCG</li>
+          <li>Compréhension des comportements d'achat clients</li>
+          <li>Réalisation d'études de marché complètes</li>
+          <li>Prospection téléphonique B2B — 100 appels et 5 projets détectés mensuels auprès de prospects professionnels</li>
+          <li>Élaboration de 10 à 20 devis/mois et suivi commercial de bout en bout</li>
+        </ul>
+      </div>
+      <div class="comp-block reveal d2">
+        <div class="comp-block-num">02</div>
+        <p class="comp-block-title">Analytiques &amp; Pilotage</p>
+        <ul class="comp-items">
+          <li>Esprit d'analyse développé (marchés, concurrents)</li>
+          <li>Capacité à tirer des conclusions de données concrètes</li>
+          <li>Création et mise à jour de tableaux de bord commerciaux — suivi hebdomadaire en alternance</li>
+          <li>Enquêtes de satisfaction client et analyse des retours</li>
+          <li>CRM Saphir — saisie et suivi quotidien des prospects et clients B2B</li>
+          <li>Reporting hebdomadaire destiné à l'équipe commerciale B2B</li>
+        </ul>
+      </div>
+      <div class="comp-block reveal d1">
+        <div class="comp-block-num">03</div>
+        <p class="comp-block-title">Transversales</p>
+        <ul class="comp-items">
+          <li>Collaboration avec l'équipe commerciale dans un environnement B2B professionnel</li>
+          <li>Communication professionnelle orale et écrite</li>
+          <li>Gestion de projet (planification, budget, livrables)</li>
+          <li>Gestion simultanée de la prospection, du suivi clients et du reporting en contexte B2B</li>
+          <li>Négociation commerciale B2B — argumentaire, traitement des objections, closing</li>
+          <li>Qualification de fichiers prospects</li>
+          <li>Suivi commercial des affaires en cours</li>
+          <li>Adaptabilité terrain</li>
+        </ul>
+        <div class="lang-section">
+          <div class="lang-item">
+            <div class="lang-row"><span>Anglais</span><span>B2 — Professionnel</span></div>
+            <div class="lang-bar"><div class="lang-fill" style="width:75%" data-width="75%"></div></div>
+          </div>
+          <div class="lang-item">
+            <div class="lang-row"><span>Allemand</span><span>B1 — Frontalier Alsace</span></div>
+            <div class="lang-bar"><div class="lang-fill" style="width:55%" data-width="55%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="comp-block reveal d3">
+        <div class="comp-block-num">04</div>
+        <p class="comp-block-title">Outils &amp; Bureautique</p>
+        <ul class="comp-items">
+          <li>Word — Niveau maîtrise</li>
+          <li>Excel — Niveau maîtrise</li>
+          <li>PowerPoint — Niveau maîtrise</li>
+          <li>Canva — création de supports visuels</li>
+          <li>CRM Saphir — utilisation quotidienne</li>
+          <li>Messagerie professionnelle — utilisation quotidienne</li>
+          <li>Conception et mise en forme de tableaux de bord</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AUTOÉVALUATION ═══ -->
+<section id="autoevaluation">
+  <div class="container">
+    <p class="section-label reveal">Bilan &amp; Progression</p>
+    <h2 class="section-title reveal d1">Mon <em>autoévaluation</em></h2>
+    <div class="auto-grid reveal d2">
+      <div class="auto-block">
+        <p class="auto-block-title">Ce que j'ai acquis</p>
+        <p class="auto-block-text">En un an de BUT TC, j'ai posé des bases solides en vente, marketing et analyse. Mon alternance chez Altodis m'a permis de <em>mettre en pratique rapidement</em> ce que j'apprenais — la prospection téléphonique et les tableaux de bord sont aujourd'hui des missions que je gère de façon autonome.</p>
+      </div>
+      <div class="auto-block">
+        <p class="auto-block-title">Mes axes de progression</p>
+        <p class="auto-block-text">Deux points sur lesquels je travaille encore : <em>l'expression orale en anglais</em> sous pression, notamment lors de présentations, et la formulation de recommandations stratégiques claires et bien argumentées. Ce sont des compétences que je développe activement en S2.</p>
+      </div>
+      <div class="auto-block">
+        <p class="auto-block-title">Ce que je ferais différemment</p>
+        <p class="auto-block-text">Sur la SAE marketing, j'aurais dû commencer la collecte de données plus tôt pour avoir plus de temps pour l'analyse. Sur la SAE vente, j'aurais pu aller directement parler aux vendeurs observés — rester en simple observation m'a limité dans la profondeur de mon analyse.</p>
+      </div>
+    </div>
+    <div class="progression-row reveal d3">
+      <div class="prog-card">
+        <p class="prog-card-label">Ma méthode de travail</p>
+        <p class="prog-card-title">Comment j'aborde un problème</p>
+        <p class="prog-card-text">Je commence toujours par rassembler les faits avant de me faire un avis. Ensuite, j'identifie les enjeux, je compare les options, puis je formule une conclusion. Cette façon de faire, je l'ai développée à travers les SAE et je l'applique aujourd'hui aussi bien en cours qu'en entreprise.</p>
+      </div>
+      <div class="prog-card">
+        <p class="prog-card-label">Transfert de compétences</p>
+        <p class="prog-card-title">Ce que j'applique d'une situation à l'autre</p>
+        <p class="prog-card-text">La méthode SONCAS vue à la Foire de Strasbourg, je la réutilise à chaque appel de prospection. L'analyse de données de la SAE marketing, je la retrouve dans la construction de mes tableaux de bord. Les contraintes de gestion de projet de la SAE stand, je les anticipe mieux aujourd'hui dans mon travail en alternance. Les apprentissages se répondent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ OBJECTIFS ═══ -->
+<section id="objectifs">
+  <div class="container">
+    <p class="section-label reveal">Vision</p>
+    <h2 class="section-title reveal d1">Mes <em>objectifs</em></h2>
+    <div class="obj-grid reveal d2">
+      <div class="obj-block featured">
+        <p class="obj-block-label accent">Objectif en cours</p>
+        <p class="obj-block-text">Valider mon <em>BUT TC</em> et continuer à progresser chez Altodis — en prenant plus de responsabilités sur mes missions commerciales au fil des semestres.</p>
+      </div>
+      <div class="obj-block">
+        <p class="obj-block-label">Après le BUT</p>
+        <p class="obj-block-text">Intégrer un <em>Master en école de commerce</em>, toujours en alternance, pour aller plus loin sur la stratégie et le management commercial.</p>
+      </div>
+      <div class="obj-block">
+        <p class="obj-block-label">Long terme</p>
+        <p class="obj-block-text">Accéder à un poste à <em>responsabilités</em> dans le développement commercial — direction des ventes ou business development.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" style="padding-bottom:0;">
+  <div class="container">
+    <p class="section-label reveal">Disponible</p>
+    <h2 class="section-title reveal d1">Me <em>contacter</em></h2>
+    <div class="contact-layout reveal d2">
+      <div class="contact-left">
+        <h3 class="contact-big">Travaillons<span><br>ensemble</span></h3>
+        <p class="contact-note">Une opportunité, un projet, une candidature ? Je suis disponible et toujours ouvert aux échanges professionnels.</p>
+      </div>
+      <div class="contact-right">
+        <p class="contact-right-title">Mes coordonnées</p>
+        <div class="c-list">
+          <a href="tel:0602193291" class="c-row">
+            <span class="c-label">Téléphone</span>
+            <span class="c-val">06.02.19.32.91</span>
+            <span class="c-arr">↗</span>
+          </a>
+          <a href="mailto:Koehl.anthony27@gmail.com" class="c-row">
+            <span class="c-label">Email</span>
+            <span class="c-val">Koehl.anthony27@gmail.com</span>
+            <span class="c-arr">↗</span>
+          </a>
+          <div class="c-row">
+            <span class="c-label">Localisation</span>
+            <span class="c-val" style="padding-left:.5rem;">Bollwiller (68540) &nbsp;·&nbsp; Permis B</span>
+            <span class="c-arr">·</span>
+          </div>
+          <div class="c-row">
+            <span class="c-label">Formation</span>
+            <span class="c-val">BUT TC · IUT Colmar · 2ème année</span>
+            <span class="c-arr">·</span>
+          </div>
+          <div class="c-row">
+            <span class="c-label">Alternance</span>
+            <span class="c-val">Altodis · Apprenti Commercial</span>
+            <span class="c-arr">·</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ CV ═══ -->
+<section id="cv" style="padding:5rem 0;background:var(--bg2);border-top:1px solid var(--border);">
+  <div class="container">
+    <p class="section-label reveal">Curriculum Vitae</p>
+    <h2 class="section-title reveal d1">Mon <em>CV</em></h2>
+
+    <!-- CARTE CV FIDÈLE AU PDF -->
+    <div class="reveal d2" style="border:1px solid var(--border);overflow:hidden;display:grid;grid-template-columns:300px 1fr;">
+
+      <!-- ── BANDE GAUCHE verte (comme le PDF) ── -->
+      <div style="background:#3d4f38;padding:2.5rem 2rem;display:flex;flex-direction:column;gap:2rem;">
+
+        <!-- NOM -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:36px;font-weight:600;color:#fff;line-height:1.05;letter-spacing:-.01em;">ANTHONY<br>KOEHL</p>
+          <div style="height:2px;background:rgba(255,255,255,.2);margin:1rem 0;"></div>
+          <p style="font-size:12px;line-height:1.75;color:rgba(255,255,255,.7);">Étudiant en BUT Techniques de Commercialisation en alternance chez ALTODIS, j'ai développé des compétences en prospection, suivi client et développement commercial BtoB. Ponctuel, persévérant et ambitieux, je cherche à évoluer dans un environnement commercial stimulant.</p>
+        </div>
+
+        <!-- COORDONNÉES -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b5c9a0;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.15);">Coordonnées</p>
+          <div style="display:flex;flex-direction:column;gap:.45rem;">
+            <p style="font-size:11.5px;color:rgba(255,255,255,.65);">6 rue de Lille, 68540 Bollwiller</p>
+            <a href="tel:0602193291" style="font-size:11.5px;color:rgba(255,255,255,.65);text-decoration:none;">06.02.19.32.91</a>
+            <a href="mailto:Koehl.anthony27@gmail.com" style="font-size:11px;color:rgba(255,255,255,.65);text-decoration:none;word-break:break-all;">Koehl.anthony27@gmail.com</a>
+            <p style="font-size:11.5px;color:rgba(255,255,255,.65);">Permis B, véhicule</p>
+          </div>
+        </div>
+
+        <!-- FORMATION -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b5c9a0;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.15);">Formation</p>
+          <div style="margin-bottom:1.2rem;">
+            <p style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.2rem;">BUT Techniques de Commercialisation</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;">IUT UHA – Colmar | 2024 – 2027<br>En alternance depuis 2025<br>Diplôme prévu en 2027</p>
+          </div>
+          <div>
+            <p style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.2rem;">Baccalauréat STMG – Mention Bien</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;">Lycée Alfred Kastler | 2021 – 2024<br>Spécialité Gestion Finances</p>
+          </div>
+        </div>
+
+        <!-- PROJETS -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b5c9a0;margin-bottom:.8rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.15);">Projets</p>
+          <div style="margin-bottom:1rem;">
+            <p style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.2rem;">Job logistique</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;">Transport Logistique KAUFFMANN – Soultz<br>2022 (courte période)<br>· Préparation de commandes et gestion des stocks</p>
+          </div>
+          <div>
+            <p style="font-size:12.5px;font-weight:700;color:#fff;margin-bottom:.2rem;">Bénévolat</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;">Loto caritatif | 2019<br>· Organisation et participation à des événements de collecte de fonds</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── COLONNE DROITE beige clair (comme le PDF) ── -->
+      <div style="background:#f0ece2;padding:2.5rem 2.5rem;display:flex;flex-direction:column;gap:2rem;">
+
+        <!-- PROFIL -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3d4f38;margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid #3d4f38;">Profil</p>
+          <p style="font-size:13px;line-height:1.8;color:var(--ink2);">Étudiant en BUT Techniques de Commercialisation en alternance chez ALTODIS, j'ai développé des compétences en prospection, suivi client et développement commercial BtoB. Ponctuel, persévérant et ambitieux, je cherche à évoluer dans un environnement commercial stimulant.</p>
+        </div>
+
+        <!-- EXPÉRIENCE -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3d4f38;margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid #3d4f38;">Expérience</p>
+
+          <div style="margin-bottom:1.6rem;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.2rem;">
+              <p style="font-size:14px;font-weight:700;color:var(--ink);">Apprenti Commercial</p>
+              <p style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);">2025 – à ce jour</p>
+            </div>
+            <p style="font-size:12px;color:#3d4f38;font-weight:600;margin-bottom:.6rem;">ALTODIS – Distributeur Officiel Toyota Manutention &amp; Kubota BTP</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:.35rem;">
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Prospection téléphonique active (~100 appels/mois), qualification et prise de RDV</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Suivi portefeuille client en autonomie : relances et entretien de la relation</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Réalisation de devis et accompagnement jusqu'à la conclusion</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Pilotage satisfaction client : questionnaire, collecte et synthèse des retours</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Conception tableau de bord Excel multi-niveaux — NPS &gt; 9/10 sur 50 clients</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;position:relative;line-height:1.6;">· Remontée terrain auprès du management pour ajuster la stratégie commerciale</li>
+            </ul>
+          </div>
+
+          <div style="margin-bottom:1.6rem;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.2rem;">
+              <p style="font-size:14px;font-weight:700;color:var(--ink);">Employé de restauration</p>
+              <p style="font-family:'DM Mono',monospace;font-size:10px;color:var(--ink3);">Avr. 2024 – 2025</p>
+            </div>
+            <p style="font-size:12px;color:#3d4f38;font-weight:600;margin-bottom:.6rem;">Restaurant Les Tommerie – Château d'Isenbourg</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:.35rem;">
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;line-height:1.6;">· Service client et gestion des commandes</li>
+              <li style="font-size:12.5px;color:var(--ink2);padding-left:.9rem;line-height:1.6;">· Travail en équipe dans un environnement haut de gamme</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- COMPÉTENCES -->
+        <div>
+          <p style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#3d4f38;margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:2px solid #3d4f38;">Compétences</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+            <div>
+              <p style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:.5rem;">Commercial &amp; Marketing</p>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:.3rem;">
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Prospection B2B téléphonique</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Méthode SONCAS</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· SWOT · PESTEL · BCG · 5 Forces</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· CRM Saphir</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Réalisation de devis</li>
+              </ul>
+            </div>
+            <div>
+              <p style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:.5rem;">Outils &amp; Langues</p>
+              <ul style="list-style:none;display:flex;flex-direction:column;gap:.3rem;">
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Excel – Niveau maîtrise</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Word · PowerPoint · Canva</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Anglais B2 – Professionnel</li>
+                <li style="font-size:12px;color:var(--ink2);padding-left:.9rem;">· Allemand B1 – Frontalier Alsace</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 — <span>Anthony Koehl</span> · Portfolio BUT TC</p>
+  <p>IUT de Colmar · Alternance <span>Altodis</span></p>
+</footer>
+
+<script>
+// Barre de progression scroll
+const scrollBar=document.getElementById('scroll-bar');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  scrollBar.style.width=(window.scrollY/h*100)+'%';
+});
+
+// Compteurs animés
+function animateCount(el,target,suffix,duration){
+  let start=0,step=target/60,current=0;
+  const timer=setInterval(()=>{
+    current=Math.min(current+step,target);
+    el.textContent=Math.round(current)+(suffix||'');
+    if(current>=target)clearInterval(timer);
+  },duration/60);
+}
+const countObs=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting&&!e.target.dataset.counted){
+    e.target.dataset.counted='1';
+    const t=parseInt(e.target.dataset.target);
+    const s=e.target.dataset.suffix||'';
+    animateCount(e.target,t,s,1400);
+  }
+}),{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>countObs.observe(el));
+
+// Curseur
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.sae-item,.force-row,.comp-block,.obj-block,.sf-tag,.exp-card-sm,.prog-card,.auto-block,.id-cell,.exp-block').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';cur.style.borderRadius='3px';cur.style.background='var(--green)';ring.style.width='50px';ring.style.height='50px';ring.style.opacity='.45';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';cur.style.borderRadius='50%';cur.style.background='var(--brown)';ring.style.width='36px';ring.style.height='36px';ring.style.opacity='.25';});
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+// Reveal au scroll
+const obs=new IntersectionObserver(entries=>entries.forEach(x=>{
+  if(x.isIntersecting){
+    x.target.classList.add('v');
+    // Animer les barres de langue
+    x.target.querySelectorAll('.lang-fill').forEach(b=>b.classList.add('animated'));
+  }
+}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Nav active
+const secs=document.querySelectorAll("section[id]"),lnks=document.querySelectorAll(".nav-links a");
+window.addEventListener("scroll",()=>{
+  let c="";
+  secs.forEach(s=>{if(window.scrollY>=s.offsetTop-120)c=s.id;});
+  lnks.forEach(l=>{l.style.color=l.getAttribute("href")==="#"+c?"var(--green)":"";});
+});
+</script>
+</body>
+</html>
